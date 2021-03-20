@@ -18,3 +18,5 @@ LinkingTo:
 Imports: 
     Rcpp
 Biarch: TRUE
+URL: https://github.com/zamorarr/riskslimr.cplex
+BugReports: https://github.com/zamorarr/riskslimr.cplex/issues
