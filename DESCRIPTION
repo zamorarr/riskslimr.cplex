@@ -20,3 +20,5 @@ Imports:
 Biarch: TRUE
 URL: https://github.com/zamorarr/riskslimr.cplex
 BugReports: https://github.com/zamorarr/riskslimr.cplex/issues
+Suggests: 
+    testthat (>= 2.1.0)
