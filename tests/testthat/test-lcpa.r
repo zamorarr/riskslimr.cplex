@@ -1,6 +1,6 @@
-data <- readRDS("titanic.rds")
-x <- data$x
-y <- data$y
+titanic <- readRDS("titanic.rds")
+x <- titanic$x
+y <- titanic$y
 
 test_that("titanic dataset works", {
   # actual

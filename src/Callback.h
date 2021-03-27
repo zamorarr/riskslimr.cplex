@@ -15,7 +15,7 @@ private:
 
   // current solution
   IloIntVarArray lambda;
-  IloIntVarArray alpha;
+  IloBoolVarArray alpha;
   IloNumVar L;
 
   // loss computer
@@ -28,11 +28,12 @@ private:
   // callbacks
   void lazyCut(const IloCplex::Callback::Context &context);
   void discreteCoordDescent(const IloCplex::Callback::Context &context);
+  double dcdOne(arma::vec lambda_vec, arma::vec alpha_vec, arma::vec lb, arma::vec ub, arma::vec &lambda_best, arma::vec &alpha_best, double V);
   void showProgress(const IloCplex::Callback::Context &context);
 
 public:
   // Constructor with data
-  LossCutCallback(const IloIntVarArray &_lambda, IloIntVarArray &_alpha, IloNumVar &_L, LossComputer* _computer):
+  LossCutCallback(const IloIntVarArray &_lambda, IloBoolVarArray &_alpha, IloNumVar &_L, LossComputer* _computer):
   lambda(_lambda), alpha(_alpha), L(_L), computer(_computer) {}
 
   // This is the function that we have to implement and that CPLEX will call

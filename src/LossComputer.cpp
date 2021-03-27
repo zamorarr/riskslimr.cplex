@@ -1,7 +1,7 @@
 #include "LossComputer.h"
 
-LossComputer::LossComputer(const arma::mat &_x, const arma::vec &_y):
-  x(_x), y(_y) {
+LossComputer::LossComputer(const arma::mat &_x, const arma::vec &_y, double _c0):
+  x(_x), y(_y), c0(_c0) {
   z = x.each_col() % y;
 }
 
@@ -14,4 +14,9 @@ arma::vec LossComputer::loss_grad(arma::vec lambda) {
   arma::mat a = z.each_col() / b;
   arma::mat lg = arma::mean(-a, 0); // col means
   return arma::vectorise(lg);
+}
+
+double LossComputer::objective(arma::vec lambda, arma::vec alpha) {
+  int R = arma::sum(alpha);
+  return loss(lambda) + c0*R;
 }

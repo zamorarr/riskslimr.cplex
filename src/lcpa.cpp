@@ -11,11 +11,11 @@ Rcpp::List lcpa_cpp(arma::mat x, arma::vec y, std::string logfile, int R_max = 3
 
   // initialize the loss computer
   // add intercept to x beforehand
-  LossComputer computer(x, y);
+  double c0 = 1E-6;
+  LossComputer computer(x, y, c0);
 
   // inputs
   int d = x.n_cols;
-  double c0 = 1E-8;
   int R_min = 1;
   R_max = std::min(R_max, d);
   int intercept_min = -10;
@@ -32,7 +32,7 @@ Rcpp::List lcpa_cpp(arma::mat x, arma::vec y, std::string logfile, int R_max = 3
     IloModel model(env);
 
     // create variables
-    IloIntVarArray alpha(env, d, 0, 1);
+    IloBoolVarArray alpha(env, d);
     IloIntVarArray lambda(env, d);
     IloIntVar R(env, R_min, R_max);
     IloNumVar L(env, L_min, L_max);
@@ -89,17 +89,18 @@ Rcpp::List lcpa_cpp(arma::mat x, arma::vec y, std::string logfile, int R_max = 3
     // write out model for inspection
     //cplex.exportModel("model2.lp");
 
+    // get model values and convert to vectors
     IloNumArray alpha_vals(env);
     cplex.getValues(alpha_vals, alpha);
-    std::vector<int> alpha_vec;
+    std::vector<int> alpha_vec(d);
 
     IloNumArray lambda_vals(env);
     cplex.getValues(lambda_vals, lambda);
-    std::vector<int> lambda_vec;
+    std::vector<int> lambda_vec(d);
 
     for (int j = 0; j < d; j++) {
-      alpha_vec.push_back(alpha_vals[j]);
-      lambda_vec.push_back(lambda_vals[j]);
+      alpha_vec[j] = alpha_vals[j];
+      lambda_vec[j] = lambda_vals[j];
     }
 
     Rcpp::List result = Rcpp::List::create(
