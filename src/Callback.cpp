@@ -101,12 +101,14 @@ void LossCutCallback::discreteCoordDescent(const IloCplex::Callback::Context &co
   double V_best_new = V_best;
 
   int iters = 0;
+  int R = 0;
   while(iters < 100) {
     iters++;
     V_best_new = dcdOne(lambda_vec, alpha_vec, lb, ub, lambda_vec_best, alpha_vec_best, V);
+    R = arma::sum(alpha_vec_best);
 
     // if no improvement stop looping
-    if (V_best_new >= (V_best - 1E-8)) break;
+    if (V_best_new >= (V_best - 1E-8) or R < 1) break;
 
     // update best
     V_best = V_best_new;
