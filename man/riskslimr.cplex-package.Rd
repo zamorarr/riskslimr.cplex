@@ -8,6 +8,14 @@
 \description{
 GLPK backend for riskslimr
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/zamorarr/riskslimr.cplex}
+  \item Report bugs at \url{https://github.com/zamorarr/riskslimr.cplex/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Robert Zamora \email{zamora.rr@gmail.com}
 
