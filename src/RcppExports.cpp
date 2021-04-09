@@ -6,24 +6,57 @@
 
 using namespace Rcpp;
 
-// lcpa_cpp
-Rcpp::List lcpa_cpp(arma::mat x, arma::vec y, std::string logfile, int R_max, int time_limit);
-RcppExport SEXP _riskslimr_cplex_lcpa_cpp(SEXP xSEXP, SEXP ySEXP, SEXP logfileSEXP, SEXP R_maxSEXP, SEXP time_limitSEXP) {
+// test_loss_cpp
+double test_loss_cpp(arma::mat x, arma::vec y, arma::vec w, double c0, arma::vec lambda);
+RcppExport SEXP _riskslimr_cplex_test_loss_cpp(SEXP xSEXP, SEXP ySEXP, SEXP wSEXP, SEXP c0SEXP, SEXP lambdaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type y(ySEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type w(wSEXP);
+    Rcpp::traits::input_parameter< double >::type c0(c0SEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type lambda(lambdaSEXP);
+    rcpp_result_gen = Rcpp::wrap(test_loss_cpp(x, y, w, c0, lambda));
+    return rcpp_result_gen;
+END_RCPP
+}
+// test_loss_grad_cpp
+arma::vec test_loss_grad_cpp(arma::mat x, arma::vec y, arma::vec w, double c0, arma::vec lambda);
+RcppExport SEXP _riskslimr_cplex_test_loss_grad_cpp(SEXP xSEXP, SEXP ySEXP, SEXP wSEXP, SEXP c0SEXP, SEXP lambdaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type y(ySEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type w(wSEXP);
+    Rcpp::traits::input_parameter< double >::type c0(c0SEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type lambda(lambdaSEXP);
+    rcpp_result_gen = Rcpp::wrap(test_loss_grad_cpp(x, y, w, c0, lambda));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lcpa_cpp
+Rcpp::List lcpa_cpp(arma::mat x, arma::vec y, arma::vec weights, std::string logfile, int R_max, int time_limit);
+RcppExport SEXP _riskslimr_cplex_lcpa_cpp(SEXP xSEXP, SEXP ySEXP, SEXP weightsSEXP, SEXP logfileSEXP, SEXP R_maxSEXP, SEXP time_limitSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type y(ySEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type weights(weightsSEXP);
     Rcpp::traits::input_parameter< std::string >::type logfile(logfileSEXP);
     Rcpp::traits::input_parameter< int >::type R_max(R_maxSEXP);
     Rcpp::traits::input_parameter< int >::type time_limit(time_limitSEXP);
-    rcpp_result_gen = Rcpp::wrap(lcpa_cpp(x, y, logfile, R_max, time_limit));
+    rcpp_result_gen = Rcpp::wrap(lcpa_cpp(x, y, weights, logfile, R_max, time_limit));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_riskslimr_cplex_lcpa_cpp", (DL_FUNC) &_riskslimr_cplex_lcpa_cpp, 5},
+    {"_riskslimr_cplex_test_loss_cpp", (DL_FUNC) &_riskslimr_cplex_test_loss_cpp, 5},
+    {"_riskslimr_cplex_test_loss_grad_cpp", (DL_FUNC) &_riskslimr_cplex_test_loss_grad_cpp, 5},
+    {"_riskslimr_cplex_lcpa_cpp", (DL_FUNC) &_riskslimr_cplex_lcpa_cpp, 6},
     {NULL, NULL, 0}
 };
 

@@ -5,14 +5,14 @@
 #include "Callback.h"
 
 // [[Rcpp::export]]
-Rcpp::List lcpa_cpp(arma::mat x, arma::vec y, std::string logfile, int R_max = 3, int time_limit = 60) {
+Rcpp::List lcpa_cpp(arma::mat x, arma::vec y, arma::vec weights, std::string logfile, int R_max = 3, int time_limit = 60) {
   // create environment
   IloEnv env;
 
   // initialize the loss computer
   // add intercept to x beforehand
   double c0 = 1E-6;
-  LossComputer computer(x, y, c0);
+  LossComputer computer(x, y, weights, c0);
 
   // inputs
   int d = x.n_cols;

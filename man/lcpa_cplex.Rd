@@ -4,12 +4,14 @@
 \alias{lcpa_cplex}
 \title{Lattice Cutting Plane Algorithm using CPLEX}
 \usage{
-lcpa_cplex(x, y, logfile, R_max, time_limit)
+lcpa_cplex(x, y, weights, logfile, R_max, time_limit)
 }
 \arguments{
 \item{x}{feature matrix}
 
 \item{y}{response vector}
+
+\item{weights}{vector of observation weights}
 
 \item{logfile}{file to write log output}
 

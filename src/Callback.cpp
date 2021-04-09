@@ -18,6 +18,7 @@ void LossCutCallback::invoke(const IloCplex::Callback::Context &context) {
 
 // show progress callback
 void LossCutCallback::showProgress(const IloCplex::Callback::Context &context) {
+  //context.getEnv().out() << "[" << time_current << "] objective value: " << context.getIncumbentObjective() << "\n";
   time_current = std::time(0);
   if (time_current - time_last_update >= 10) {
     // update every 10 seconds
@@ -36,7 +37,7 @@ void LossCutCallback::lazyCut(const IloCplex::Callback::Context &context) {
   IloEnv env = context.getEnv();
 
   // discrete coordinate descent on incumbent?
-  discreteCoordDescent(context);
+  //discreteCoordDescent(context);
 
   //env.out() << "candidate lambda: [" ;
   arma::vec lambda_val(lambda.getSize());
@@ -120,6 +121,7 @@ void LossCutCallback::discreteCoordDescent(const IloCplex::Callback::Context &co
   }
 
   // if V_best is better than V do something
+  //env.out() << "[dcd callback] objective: " << V_best << std::endl;
   if (V_best >= (V - 1E-8)) return;
 
   // convert vec to Iloarray
@@ -151,6 +153,7 @@ void LossCutCallback::discreteCoordDescent(const IloCplex::Callback::Context &co
   IloNumArray vals(env);
   vals.add(lambda_vals_best);
   vals.add(alpha_vals_best);
+
   context.postHeuristicSolution(vars, vals, V_best, IloCplex::Callback::Context::SolutionStrategy::Propagate);
 
   return;

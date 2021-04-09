@@ -1,10 +1,11 @@
 titanic <- readRDS("titanic.rds")
 x <- titanic$x
 y <- titanic$y
+weights <- rep(1, nrow(x))
 
 test_that("titanic dataset works", {
   # actual
-  r <- lcpa_cpp(x, y, logfile = tempfile(), R_max = 3L, time_limit = 10L)
+  r <- lcpa_cpp(x, y, weights, logfile = tempfile(), R_max = 3L, time_limit = 10L)
 
   # expected
   alpha <- as.integer(c(1,1,1,0,0,0))
